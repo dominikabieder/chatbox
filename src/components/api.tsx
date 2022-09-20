@@ -1,17 +1,17 @@
-import { AnswerType, QuestionType } from "./types";
+import { QandAType } from "./types";
 
 export const getQuestions = async () => {
   const response = await fetch('https://raw.githubusercontent.com/mzronek/task/main/flow.json')
   return await response.json()
 }
 
-export const sendAnswers = async (questions: QuestionType[], answers: AnswerType[]): Promise<boolean> => {
+export const sendAnswers = async (qAndAs: QandAType[]): Promise<boolean> => {
   try {
     await fetch('https://virtserver.swaggerhub.com/L8475/task/1.0.1/conversation', {
       method: 'PUT',
-      body: JSON.stringify(answers.map((answer: AnswerType, i) => ({
-        name: questions[i].name,
-        value: answer.value,
+      body: JSON.stringify(qAndAs.map((qAndA: QandAType) => ({
+        name: qAndA.question.name,
+        value: qAndA.answer.value,
       })))
     })
     return true

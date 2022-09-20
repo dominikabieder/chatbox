@@ -10,3 +10,8 @@ export type AnswerType = {
   value: boolean,
   text: string,
 }
+
+export type QandAType = {
+  question: QuestionType,
+  answer: AnswerType,
+}

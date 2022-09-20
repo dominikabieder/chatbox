@@ -5,23 +5,23 @@ import Answers from "./Answers";
 import CurrentQuestion from "./CurrentQuestion";
 import { getQuestions, sendAnswers } from "./api";
 import { Loader, Error, Success, Wrapper } from "./HelperComponents";
-import { AnswerType, QuestionType } from "./types";
+import {AnswerType, QandAType, QuestionType} from "./types";
 
 const Chat = () => {
   const { loading, value: questions, error: loadingError } = useAsync(getQuestions)
 
   const [ currentQuestionId, setCurrentQuestionId ] = useState<number | null>(100)
-  const [ answers, setAnswers ] = useState<AnswerType[]>([])
+  const [ qAndAs, setQandAs ] = useState<QandAType[]>([])
   const [ success, setSuccess ] = useState<boolean>()
 
   const currentQuestion = questions?.find((question: QuestionType) => question.id === currentQuestionId)
 
-  const onAnswer = async (answer: AnswerType) => {
-    const newAnswers = [...answers, answer]
-    setAnswers(newAnswers)
+  const onAnswer = async (question: QuestionType, answer: AnswerType) => {
+    const newQandAs = [...qAndAs, { question, answer }]
+    setQandAs(newQandAs)
     if (answer.nextId === false) {
       setCurrentQuestionId(null)
-      const success = await sendAnswers(questions, newAnswers)
+      const success = await sendAnswers(newQandAs)
       setSuccess(success)
     } else {
       setCurrentQuestionId(answer.nextId)
@@ -32,7 +32,7 @@ const Chat = () => {
     <Wrapper>
       {loading && <Loader />}
       {loadingError && <Error />}
-      {answers.length > 0 && <Answers questions={questions} answers={answers} />}
+      {qAndAs.length > 0 && <Answers qAndAs={qAndAs} />}
       {currentQuestion && <CurrentQuestion question={currentQuestion} onAnswer={onAnswer} />}
       {success === true && <Success />}
       {success === false && <Error />}
