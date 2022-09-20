@@ -1,4 +1,5 @@
 # Getting Started with Botty Chatbot
+<img width="577" alt="Screenshot 2022-09-20 at 10 56 28" src="https://user-images.githubusercontent.com/31188583/191214738-03f4074e-068c-48ee-bea8-8c1c253687b7.png">
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
